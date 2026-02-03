@@ -605,10 +605,250 @@ const decomposedPlan = await orchestrator.query(
 );
 ```
 
+### Super Agents
+
+#### BaseSuperAgent
+
+Orchestrates multiple utility agents to solve complex multi-step tasks through intelligent task decomposition, routing, and result aggregation.
+
+**Features:**
+- Automatic task decomposition into subtasks
+- Intelligent agent routing based on task requirements
+- Dependency-aware execution (sequential or parallel)
+- Result aggregation from multiple agents
+- Graceful failure handling (retry, skip, abort strategies)
+- Max turns configuration to prevent infinite loops
+- Progress tracking and callbacks
+- Self-reflection for coordination quality
+- Full support for all utility agents (Search, Research, Analytics, Planning)
+
+**Usage:**
+
+```typescript
+import { BaseSuperAgent } from './super-agents/base-super-agent';
+import { SearchAgent } from './utility-agents/search-agent';
+import { ResearchAgent } from './utility-agents/research-agent';
+import { AnalyticsAgent } from './utility-agents/analytics-agent';
+import { PlanningAgent } from './utility-agents/planning-agent';
+
+// Create super agent
+const superAgent = new BaseSuperAgent({
+  agentName: 'coordinator',
+  agentDescription: 'Multi-agent coordinator',
+  selfReflection: {
+    enabled: true,
+    maxAttempts: 2,
+  },
+  maxTurns: 10,
+  parallelExecution: false, // or true for parallel execution
+  failureStrategy: 'skip', // 'retry', 'skip', or 'abort'
+  maxRetries: 3,
+});
+
+// Register utility agents
+superAgent.registerUtilityAgent('search', new SearchAgent({
+  agentName: 'search',
+  agentDescription: 'Web search',
+}));
+
+superAgent.registerUtilityAgent('research', new ResearchAgent({
+  agentName: 'research',
+  agentDescription: 'Deep research',
+}));
+
+superAgent.registerUtilityAgent('analytics', new AnalyticsAgent({
+  agentName: 'analytics',
+  agentDescription: 'Data analysis',
+}));
+
+superAgent.registerUtilityAgent('planner', new PlanningAgent({
+  agentName: 'planner',
+  agentDescription: 'Task planning',
+}));
+
+// Execute complex multi-step task
+const result = await superAgent.execute(
+  'Research AI trends, analyze the data, and create an implementation plan'
+);
+console.log(result);
+
+// Track progress
+superAgent.onProgress((subtaskId, status) => {
+  console.log(`Subtask ${subtaskId}: ${status}`);
+});
+
+// Manual task decomposition and execution
+const subtasks = await superAgent.decomposeTask(
+  'Search for data, then analyze it, then plan next steps'
+);
+console.log('Decomposed into', subtasks.length, 'subtasks');
+
+const results = await superAgent.executeSubtasks(subtasks);
+const aggregated = superAgent.aggregateResults(results);
+console.log(aggregated);
+```
+
+**Configuration:**
+
+```yaml
+super_agents:
+  - agent_name: coordinator
+    agent_description: "Multi-agent coordinator for complex tasks"
+    self_reflection:
+      enabled: true
+      max_attempts: 2
+    llm: ollama:phi4
+    temperature: 0.7
+    max_tokens: 4096
+    max_turns: 10
+    parallel_execution: false
+    failure_strategy: skip # 'retry', 'skip', or 'abort'
+    max_retries: 3
+    timeout: 60000
+```
+
+**API:**
+
+- `execute(taskDescription: string, context?: any): Promise<string>` - Main execution method
+- `registerUtilityAgent(name: string, agent: UtilityAgent): void` - Register a utility agent
+- `decomposeTask(taskDescription: string): Promise<SubTask[]>` - Decompose task into subtasks
+- `executeSubtasks(subtasks: SubTask[], context?: any): Promise<SubTaskResult[]>` - Execute subtasks
+- `executeSubtask(subtask: SubTask, context?: any): Promise<string>` - Execute single subtask
+- `aggregateResults(results: SubTaskResult[]): string` - Aggregate results
+- `selectAgent(agentType: string): UtilityAgent` - Select agent by type
+- `getRegisteredAgents(): string[]` - Get list of registered agents
+- `onProgress(callback: ProgressCallback): void` - Register progress callback
+- `getTurnCount(): number` - Get current turn count
+- `selfReflect(taskDescription: string, result: string): Promise<string>` - Self-reflection
+- `getConfig(): SuperAgentConfig` - Get agent configuration
+
+**SubTask Format:**
+
+```typescript
+interface SubTask {
+  id: string;                  // Unique subtask ID
+  description: string;         // Task description
+  agentType: string;          // Agent type ('search', 'research', 'analytics', 'planner')
+  dependencies?: string[];    // IDs of prerequisite subtasks
+}
+```
+
+**SubTaskResult Format:**
+
+```typescript
+interface SubTaskResult {
+  subtaskId: string;          // Subtask ID
+  result: string;             // Execution result
+  status: 'completed' | 'failed';
+  error?: string;             // Error message if failed
+}
+```
+
+**Failure Strategies:**
+
+1. **skip**: Skip failed tasks and continue execution
+   - Use for non-critical tasks
+   - Provides partial results
+   - Graceful degradation
+
+2. **retry**: Retry failed tasks with exponential backoff
+   - Use for transient failures
+   - Configurable max retries
+   - Automatic backoff
+
+3. **abort**: Stop execution on first failure
+   - Use for critical dependencies
+   - Fail-fast approach
+   - Clear error reporting
+
+**Execution Modes:**
+
+1. **Sequential**: Execute tasks one at a time
+   - Respects dependencies
+   - Passes context between tasks
+   - Predictable execution order
+
+2. **Parallel**: Execute independent tasks concurrently
+   - Faster execution
+   - Still respects dependencies
+   - Optimal for independent subtasks
+
+**Task Decomposition Examples:**
+
+```typescript
+// Simple search task
+'Search for AI trends'
+→ [{ id: 'task-1', description: 'Search for AI trends', agentType: 'search', dependencies: [] }]
+
+// Multi-step task
+'Research AI trends, analyze the data, and create a plan'
+→ [
+    { id: 'task-1', description: 'Research AI trends', agentType: 'research', dependencies: [] },
+    { id: 'task-2', description: 'analyze the data', agentType: 'analytics', dependencies: ['task-1'] },
+    { id: 'task-3', description: 'create a plan', agentType: 'planner', dependencies: ['task-2'] }
+  ]
+
+// Complex coordination
+'Search for data and plan next steps'
+→ [
+    { id: 'task-1', description: 'Search for data', agentType: 'search', dependencies: [] },
+    { id: 'task-2', description: 'plan next steps', agentType: 'planner', dependencies: ['task-1'] }
+  ]
+```
+
+**Testing:**
+
+All 53 tests passing with comprehensive coverage (89.62%):
+- Agent interface compliance
+- Utility agent registration
+- Task decomposition
+- Agent selection and routing
+- Single and multi-subtask execution
+- Dependency management
+- Multi-agent coordination
+- Failure handling (retry, skip, abort)
+- Max turns configuration
+- Parallel execution
+- Self-reflection
+- Result aggregation
+- Error handling
+- Configuration
+- Integration with all utility agents
+
+**Design Patterns:**
+
+- **Chain of Responsibility**: Route tasks through appropriate agents
+- **Mediator Pattern**: Coordinate communication between agents
+- **Strategy Pattern**: Different execution strategies (sequential/parallel)
+- **Circuit Breaker**: Handle agent failures gracefully
+
+**Common Use Cases:**
+
+1. **Research and Analysis Pipeline**:
+   ```typescript
+   await superAgent.execute(
+     'Research quantum computing, analyze trends, and plan R&D strategy'
+   );
+   ```
+
+2. **Information Gathering and Planning**:
+   ```typescript
+   await superAgent.execute(
+     'Search for market data and create a go-to-market plan'
+   );
+   ```
+
+3. **Multi-Source Research**:
+   ```typescript
+   await superAgent.execute(
+     'Search for technical docs, research best practices, and plan implementation'
+   );
+   ```
+
 ## Coming Soon
 
-- **AnalyticsAgent** - Data analysis and insights
-- **BaseSuperAgent** - Multi-agent coordination
+- **CodeAgent** - Code generation and analysis
+- **ValidationAgent** - Result validation and quality assurance
 
 ## Architecture
 
