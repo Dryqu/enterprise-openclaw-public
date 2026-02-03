@@ -58,6 +58,8 @@ export function hasFeature(feature: string): boolean {
 export * from './licensing/license-types.js';
 export { LicenseValidator } from './licensing/license-validator.js';
 export { FeatureFlagManager } from './licensing/feature-flags.js';
+export { getLicenseMetrics, resetLicenseMetrics, LicenseMetricsCollector } from './licensing/license-metrics.js';
+export type { LicenseMetrics } from './licensing/license-metrics.js';
 
 // Export enterprise features
 // Note: These require license validation via initializeLicense()

@@ -22,6 +22,7 @@ import {
 import { LicenseStore } from './license-store.js';
 import { PhoneHomeClient } from './phone-home.js';
 import { getHashedMachineId } from './machine-id.js';
+import { getLicenseMetrics } from './license-metrics.js';
 
 interface CacheEntry {
   result: ValidationResult;
@@ -64,19 +65,28 @@ export class LicenseValidator {
    * Main validation entry point
    */
   async validate(licenseKey: string): Promise<ValidationResult> {
+    const startTime = performance.now();
+    const metrics = getLicenseMetrics();
+
     // Check in-memory cache first
     const cached = this.getFromMemoryCache(licenseKey);
     if (cached) {
+      metrics.recordCacheHit();
+      metrics.recordValidation(cached.valid, performance.now() - startTime, cached.reason);
       return cached;
     }
+
+    metrics.recordCacheMiss();
 
     // Parse JWT
     const parseResult = this.parseJWT(licenseKey);
     if (!parseResult.success) {
-      return {
+      const result = {
         valid: false,
         reason: parseResult.error
       };
+      metrics.recordValidation(false, performance.now() - startTime, parseResult.error);
+      return result;
     }
 
     const { header, payload, signature, dataToVerify } = parseResult;
@@ -84,19 +94,23 @@ export class LicenseValidator {
     // Verify signature
     const signatureValid = this.verifySignature(dataToVerify, signature);
     if (!signatureValid) {
-      return {
+      const result = {
         valid: false,
         reason: ValidationErrorReason.INVALID_SIGNATURE
       };
+      metrics.recordValidation(false, performance.now() - startTime, ValidationErrorReason.INVALID_SIGNATURE);
+      return result;
     }
 
     // Parse and validate payload schema
     const payloadResult = LicensePayloadSchema.safeParse(payload);
     if (!payloadResult.success) {
-      return {
+      const result = {
         valid: false,
         reason: ValidationErrorReason.INVALID_SCHEMA
       };
+      metrics.recordValidation(false, performance.now() - startTime, ValidationErrorReason.INVALID_SCHEMA);
+      return result;
     }
 
     const licensePayload = payloadResult.data;
@@ -104,6 +118,7 @@ export class LicenseValidator {
     // Check expiration
     const expirationCheck = this.checkExpiration(licensePayload);
     if (!expirationCheck.valid) {
+      metrics.recordValidation(false, performance.now() - startTime, expirationCheck.reason);
       return expirationCheck;
     }
 
@@ -111,6 +126,7 @@ export class LicenseValidator {
     if (this.config.enableMachineBinding) {
       const machineCheck = await this.checkMachineBinding(licensePayload);
       if (!machineCheck.valid) {
+        metrics.recordValidation(false, performance.now() - startTime, machineCheck.reason);
         return machineCheck;
       }
     }
@@ -118,6 +134,7 @@ export class LicenseValidator {
     // Phone home (if configured)
     if (this.phoneHomeClient) {
       try {
+        const phoneHomeStart = performance.now();
         const machineId = this.config.enableMachineBinding
           ? await getHashedMachineId()
           : undefined;
@@ -126,6 +143,8 @@ export class LicenseValidator {
           licenseKey,
           machineId
         );
+
+        metrics.recordPhoneHome(phoneHomeResult.valid, performance.now() - phoneHomeStart);
 
         if (!phoneHomeResult.valid) {
           const result: ValidationResult = {
@@ -138,19 +157,26 @@ export class LicenseValidator {
           await this.licenseStore.set(licenseKey, result);
           this.setInMemoryCache(licenseKey, result);
 
+          metrics.recordValidation(false, performance.now() - startTime, result.reason);
           return result;
         }
       } catch (error) {
+        const phoneHomeEnd = performance.now();
+        metrics.recordPhoneHome(false, phoneHomeEnd - startTime);
+
         // Phone-home failed, check offline cache
         const offlineResult = await this.licenseStore.get(licenseKey);
         if (offlineResult) {
           // Use cached result
+          metrics.recordOfflineMode();
           this.setInMemoryCache(licenseKey, offlineResult);
+          metrics.recordValidation(offlineResult.valid, performance.now() - startTime, offlineResult.reason);
           return offlineResult;
         }
 
         // No cache available, proceed with offline validation
         // (signature and expiration already checked)
+        metrics.recordOfflineMode();
       }
     }
 
@@ -164,6 +190,7 @@ export class LicenseValidator {
     await this.licenseStore.set(licenseKey, result);
     this.setInMemoryCache(licenseKey, result);
 
+    metrics.recordValidation(true, performance.now() - startTime);
     return result;
   }
 

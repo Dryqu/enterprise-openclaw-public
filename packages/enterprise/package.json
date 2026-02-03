@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint src --ext ts"
+    "lint": "eslint src --ext ts",
+    "generate-license": "tsx scripts/generate-license.ts"
   },
   "keywords": [
     "ai",
@@ -27,6 +28,7 @@
     "@enterprise-openclaw/core": "^1.0.0",
     "@anthropic-ai/sdk": "^0.32.1",
     "@lancedb/lancedb": "^0.23.0",
+    "commander": "^11.1.0",
     "mammoth": "^1.11.0",
     "nanoid": "^5.0.4",
     "pdf-parse": "^2.4.5",
