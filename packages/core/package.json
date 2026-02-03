@@ -1,0 +1,45 @@
+{
+  "name": "@enterprise-openclaw/core",
+  "version": "1.0.0",
+  "description": "Open-source core features: basic DRIFT RAG, KnowledgeGraph, orchestrator",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext ts"
+  },
+  "keywords": [
+    "ai",
+    "rag",
+    "knowledge-graph",
+    "multi-agent",
+    "open-source"
+  ],
+  "author": "Enterprise OpenClaw Team",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1",
+    "@lancedb/lancedb": "^0.23.0",
+    "nanoid": "^5.0.4",
+    "pino": "^8.17.2",
+    "simple-statistics": "^7.8.8",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.30",
+    "@typescript-eslint/eslint-plugin": "^6.18.1",
+    "@typescript-eslint/parser": "^6.18.1",
+    "@vitest/coverage-v8": "^2.1.9",
+    "eslint": "^8.56.0",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.9"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
