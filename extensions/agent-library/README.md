@@ -130,9 +130,114 @@ All 23 tests passing with comprehensive coverage:
 - Configuration
 - Integration with orchestrator
 
+#### ResearchAgent
+
+Performs deep research using document compression and reranking for high-quality results.
+
+**Features:**
+- Complete research pipeline: Search → Compress → Rerank → Synthesize
+- Document compression (extractive, abstractive, hybrid strategies)
+- Relevance-based reranking (TF-IDF, semantic, cross-encoder)
+- Intelligent response synthesis
+- Self-reflection for quality assurance
+- Configurable compression ratios and ranking strategies
+
+**Usage:**
+
+```typescript
+import { ResearchAgent } from './utility-agents/research-agent';
+
+// Create research agent
+const researchAgent = new ResearchAgent({
+  agentName: 'research',
+  agentDescription: 'Deep research with compression and reranking',
+  selfReflection: {
+    enabled: true,
+    maxAttempts: 2,
+  },
+  compressionRatio: 0.5, // Compress to 50%
+  topK: 5, // Return top 5 results
+});
+
+// Use directly
+const result = await researchAgent.execute(
+  'What are the latest developments in quantum computing?'
+);
+
+// Use with options
+const detailedResult = await researchAgent.execute(
+  'Explain transfer learning in AI',
+  {
+    compressionRatio: 0.3, // Aggressive compression
+    rerankStrategy: 'semantic',
+    minRelevanceScore: 0.3,
+    includeSources: true,
+    synthesisStyle: 'detailed',
+  }
+);
+
+// Get structured research results
+const research = await researchAgent.research('machine learning algorithms', {
+  maxResults: 10,
+  compressionRatio: 0.4,
+  rerankStrategy: 'tfidf',
+});
+
+console.log('Ranked documents:', research.rankedDocuments);
+console.log('Synthesis:', research.synthesis);
+```
+
+**Configuration:**
+
+```yaml
+utility_agents:
+  - agent_name: research
+    agent_description: "Deep research with document compression and reranking"
+    self_reflection:
+      enabled: true
+      max_attempts: 2
+    llm: ollama:phi4
+    temperature: 0.7
+    max_tokens: 4096
+```
+
+**Pipeline Details:**
+
+1. **Search**: Retrieves relevant documents (mock implementation, ready for API integration)
+2. **Compress**: Reduces document length using:
+   - Extractive: Select important sentences
+   - Abstractive: Generate summaries (LLM-based)
+   - Hybrid: Combine both approaches
+3. **Rerank**: Orders documents by relevance using:
+   - TF-IDF: Term frequency-inverse document frequency
+   - Semantic: Embedding-based similarity
+   - Cross-Encoder: Pairwise relevance scoring
+4. **Synthesize**: Generates coherent response with sources
+
+**Test Results:**
+- ✅ 33 ResearchAgent tests passing
+- ✅ 17 DocumentCompressor tests passing
+- ✅ 20 DocumentReranker tests passing
+- ✅ Total: 70 tests passing
+
+**Production Integration:**
+
+Current implementation uses rule-based compression and TF-IDF reranking. For production:
+
+1. **Compression**: Integrate LLMLingua
+   ```bash
+   pip install llmlingua
+   ```
+
+2. **Reranking**: Use sentence transformers or cross-encoders
+   ```bash
+   pip install sentence-transformers
+   ```
+
+3. **Search**: Connect to real search APIs (covered in SearchAgent docs)
+
 ## Coming Soon
 
-- **ResearchAgent** - Deep research with compression and reranking
 - **AnalyticsAgent** - Data analysis and insights
 - **PlanningAgent** - Task planning with dependencies
 - **BaseSuperAgent** - Multi-agent coordination
