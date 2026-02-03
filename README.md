@@ -1,451 +1,239 @@
 # Enterprise OpenClaw
 
-**The AI platform that evolves with you.**
-
-Self-upgrading. Multi-agent. Enterprise-ready.
-
-<br>
+**Version:** 1.0.0
+**License:** Open-Core (Apache 2.0 for core, Proprietary for enterprise)
+**Status:** ✅ Production Ready
 
 ---
 
-<br>
+## Overview
 
-## Download Desktop App
+Enterprise OpenClaw is a GenAI-native multi-agent platform with self-improvement capabilities, featuring a sophisticated license validation system and open-core architecture.
 
-**Zero setup. Just click and chat.**
+### Key Features
 
-<div align="center">
-
-### [🍎 macOS](desktop-app/dist/Enterprise%20OpenClaw-1.0.0.dmg) &nbsp;&nbsp; | &nbsp;&nbsp; [🪟 Windows](#) &nbsp;&nbsp; | &nbsp;&nbsp; [🐧 Linux](#)
-
-*Beautiful chat interface. Natural language control. Full DRIFT RAG power.*
-
-</div>
-
-<br>
+- 🔓 **Open Source Core** - Knowledge graph, vector store, basic RAG (Apache 2.0)
+- 🔒 **Enterprise Features** - Advanced DRIFT RAG, inference engine, security (Licensed)
+- 🛡️ **License System** - Production-ready validation with offline support
+- 📊 **Metrics & Monitoring** - Prometheus-ready performance tracking
+- 🚀 **Production Tooling** - CLI tools, deployment guides, comprehensive docs
 
 ---
-
-<br>
-
-## Why Enterprise OpenClaw
-
-<table>
-<tr>
-<td width="33%" align="center">
-<h3>🧠 Intelligent</h3>
-<p>Multi-hop reasoning<br>Knowledge graphs<br>Self-improving</p>
-</td>
-<td width="33%" align="center">
-<h3>🔒 Secure</h3>
-<p>Multi-tenant isolation<br>PII detection<br>Audit trails</p>
-</td>
-<td width="33%" align="center">
-<h3>⚡ Scalable</h3>
-<p>Multi-agent orchestration<br>Horizontal scaling<br>Edge deployment</p>
-</td>
-</tr>
-</table>
-
-<br>
-
----
-
-<br>
 
 ## Quick Start
 
-Three lines. That's all you need.
-
-```typescript
-import { DRIFTRAG, KnowledgeGraph } from 'enterprise-openclaw';
-
-const graph = new KnowledgeGraph('./my-kb.db');
-await graph.initialize();
-
-const driftRAG = new DRIFTRAG({ knowledgeGraph: graph });
-const answer = await driftRAG.query('Your question here');
-```
-
-<br>
-
-<details>
-<summary><strong>📦 Installation Options</strong></summary>
-
-<br>
-
-### Method 1: One Command (Recommended)
+### Installation
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/wjlgatech/enterprise-openclaw/main/one-click-install.sh | bash
-```
-
-This will:
-- ✅ Check prerequisites
-- ✅ Clone repository
-- ✅ Install dependencies
-- ✅ Build project
-- ✅ Run tests
-
-<br>
-
-### Method 2: Manual Setup
-
-```bash
-git clone https://github.com/wjlgatech/enterprise-openclaw.git
-cd enterprise-openclaw
+# Install dependencies
 npm install
+
+# Build all packages
 npm run build
+
+# Run tests
+npm test
 ```
 
-<br>
-
-### Method 3: Desktop App
-
-[Download for your platform](#download-desktop-app) - no terminal needed!
-
-<br>
-
-**📘 [Complete Installation Guide →](QUICKSTART.md)**
-
-</details>
-
-<br>
-
----
-
-<br>
-
-## What Makes It Different
-
-<details>
-<summary><strong>🚀 DRIFT RAG - Beyond Simple Search</strong></summary>
-
-<br>
-
-Transform your knowledge base into an intelligent reasoning engine.
-
-### Traditional RAG vs DRIFT RAG
-
-| Traditional RAG | DRIFT RAG |
-|----------------|-----------|
-| Single-step search | Multi-hop graph traversal |
-| Fixed patterns | Dynamic exploration |
-| No reasoning | LLM-powered inference |
-| Context gaps | Knowledge gap detection |
-
-<br>
-
-### How It Works
-
-```
-📝 Question → 🎯 Entry Detection → 🔍 Graph Traversal → 🧠 AI Inference → ✨ Answer
-```
-
-<br>
-
-### Example
+### Usage
 
 ```typescript
-// Ask complex questions
-const answer = await driftRAG.query(
-  'What prerequisites do I need before learning deep learning?'
-);
+import { KnowledgeGraph } from '@enterprise-openclaw/core';
+import { initializeLicense } from '@enterprise-openclaw/enterprise';
 
-// DRIFT RAG automatically:
-// ✅ Finds relevant entry points
-// ✅ Traverses prerequisite relationships
-// ✅ Infers missing connections
-// ✅ Returns comprehensive answer with sources
+// Initialize license (for enterprise features)
+await initializeLicense({
+  licenseKey: process.env.ENTERPRISE_LICENSE_KEY!,
+  publicKey: process.env.LICENSE_PUBLIC_KEY!
+});
+
+// Use core features
+const kg = new KnowledgeGraph('./data/kg');
+await kg.initialize();
 ```
-
-<br>
-
-### Performance
-
-| Profile | Speed | Best For |
-|---------|-------|----------|
-| ⚡ Quick | ~100ms | Simple lookups |
-| ⚖️ Balanced | ~500ms | Most queries |
-| 🎯 Deep | ~2s | Complex research |
-
-<br>
-
-**✅ 91 tests passing | 100% reliability**
-
-<br>
-
-**📚 [Full Documentation →](extensions/knowledge-system/rag-modes/DRIFT_RAG_README.md)**
-
-**🎓 [Examples →](examples/drift-rag-example.ts)**
-
-</details>
-
-<br>
-
-<details>
-<summary><strong>🔄 Self-Improvement Engine</strong></summary>
-
-<br>
-
-Every interaction makes the system better.
-
-```typescript
-// Automatic pattern detection
-{
-  "pattern": "DatabaseAgent timeout on complex queries",
-  "frequency": 5,
-  "proposal": {
-    "type": "config_change",
-    "rationale": "Complex queries need more time",
-    "expectedImprovement": "20% reduction in timeouts"
-  },
-  "impact": {
-    "before": { "successRate": 0.75 },
-    "after": { "successRate": 0.95 }
-  }
-}
-```
-
-The system learns from every task and optimizes itself automatically.
-
-</details>
-
-<br>
-
-<details>
-<summary><strong>🤖 Multi-Agent Orchestration</strong></summary>
-
-<br>
-
-Define complex workflows in simple YAML:
-
-```yaml
-task: "Generate monthly sales report"
-agents:
-  - name: data_extractor
-    type: DatabaseAgent
-    config:
-      source: salesforce
-
-  - name: analyzer
-    type: AnalysisAgent
-    depends_on: [data_extractor]
-
-  - name: reporter
-    type: ReportGeneratorAgent
-    depends_on: [analyzer]
-    config:
-      format: pdf
-```
-
-Agents run in parallel. Dependencies are handled automatically.
-
-</details>
-
-<br>
-
-<details>
-<summary><strong>🔒 Enterprise Security</strong></summary>
-
-<br>
-
-Built for production from day one.
-
-**Features:**
-- Multi-tenant data isolation
-- Automatic PII detection and masking
-- Zero-trust RBAC
-- Comprehensive audit trails
-- SOC2, GDPR, HIPAA ready
-
-**Example:**
-
-```typescript
-Input:  "Process order for John Smith, SSN 123-45-6789"
-Output: "Process order for [NAME_1], SSN [SSN_1]"
-```
-
-Every action is logged with full provenance.
-
-</details>
-
-<br>
 
 ---
 
-<br>
+## Package Structure
 
-## Real-World Use Cases
+```
+packages/
+├── core/          # Open source (Apache 2.0)
+│   ├── Knowledge Graph
+│   ├── Vector Store
+│   └── Basic RAG
+│
+└── enterprise/    # Licensed features
+    ├── License System
+    ├── Advanced DRIFT RAG
+    ├── Inference Engine
+    └── Security Features
+```
 
-<details>
-<summary><strong>💻 Autonomous Code Generation</strong></summary>
+---
 
-<br>
+## Documentation
+
+### Getting Started
+- 📖 [**Implementation Summary**](./IMPLEMENTATION_SUMMARY.md) - Technical overview
+- 🚀 [**License System Guide**](./LICENSE_SYSTEM_GUIDE.md) - Quick start
+- 📋 [**Migration Guide**](./MIGRATION_GUIDE.md) - Upgrade from v0.9.x
+
+### Operations
+- 🔑 [**RSA Key Generation**](./docs/RSA_KEY_GENERATION.md) - Security setup
+- 🌐 [**License Server Deployment**](./docs/LICENSE_SERVER_DEPLOYMENT.md) - Production deploy
+- 👥 [**Team Documentation**](./docs/TEAM_DOCUMENTATION.md) - Developer handbook
+
+### Reports
+- ✅ [**Final Completion Report**](./FINAL_COMPLETION_REPORT.md) - Production readiness
+
+---
+
+## Testing
 
 ```bash
-./cli.js task create "Add user authentication with OAuth2"
+# Run all tests
+npm test
+
+# Run with coverage
+npm run test:coverage
+
+# Run specific package tests
+npm test -w @enterprise-openclaw/enterprise
 ```
 
-The system autonomously:
-1. Generates PRD with user stories
-2. Implements code with TDD
-3. Runs quality gates
-4. Creates PR with documentation
-5. Learns from the implementation
+**Test Results:** 134/134 passing ✅
+**Coverage:** 74.43% average, 90%+ critical paths
 
-</details>
+---
 
-<br>
+## Development
 
-<details>
-<summary><strong>📚 Knowledge Extraction</strong></summary>
+### Prerequisites
+- Node.js >= 20.0.0
+- npm >= 10.0.0
 
-<br>
+### Scripts
 
 ```bash
-# Process documents
-./cli.js knowledge extract --source "./documents/*.pdf"
-
-# Query with RAG
-./cli.js chat "What are our Q4 revenue targets?"
+npm run build              # Build all packages
+npm run test               # Run all tests
+npm run test:core          # Test core package
+npm run test:enterprise    # Test enterprise package
+npm run lint               # Lint all packages
+npm run clean              # Clean build artifacts
 ```
 
-Automatically extracts knowledge and builds intelligent search.
-
-</details>
-
-<br>
-
-<details>
-<summary><strong>🔌 Multi-System Integration</strong></summary>
-
-<br>
+### Package Development
 
 ```bash
-./cli.js task create "Sync customer data from Salesforce to Snowflake daily"
+# Work on core package
+cd packages/core
+npm run build
+npm test
+
+# Work on enterprise package
+cd packages/enterprise
+npm run build
+npm test
+npm run generate-license  # Generate test licenses
 ```
-
-Creates autonomous workflow across systems with monitoring and error handling.
-
-</details>
-
-<br>
 
 ---
 
-<br>
+## License Tiers
 
-## Architecture
+### 🌱 Starter
+- Advanced DRIFT RAG
+- 1 tenant, 10 concurrent tasks
+- 100K tokens/month
 
-<details>
-<summary><strong>🏗️ System Design</strong></summary>
+### 💼 Professional
+- All Starter features
+- Inference engine, PII detection
+- 5 tenants, 25 concurrent tasks
+- 500K tokens/month
 
-<br>
-
-```
-┌─────────────────────────────────────────────────────────┐
-│              API Gateway Layer                          │
-│  WebSocket + REST + CLI + Messaging                     │
-└────────────────────┬────────────────────────────────────┘
-                     │
-┌────────────────────▼────────────────────────────────────┐
-│         Enterprise Control Plane                        │
-│  Multi-Tenant | Session Manager | Auth & RBAC          │
-└────────────────────┬────────────────────────────────────┘
-                     │
-┌────────────────────▼────────────────────────────────────┐
-│      Multi-Agent Orchestrator (DAG-based)              │
-│  Agent Registry | Parallel Executor | Task Router      │
-└────────────────────┬────────────────────────────────────┘
-                     │
-┌────────────────────▼────────────────────────────────────┐
-│       Quality & Improvement Layer                       │
-│  Quality Gates | Metrics | Improvement Engine          │
-│  PII Handler | Audit Log | Experience Store            │
-└─────────────────────────────────────────────────────────┘
-```
-
-</details>
-
-<br>
+### 🏢 Enterprise
+- All Professional features
+- Multi-tenant, audit logging, connectors
+- 10 tenants, 50 concurrent tasks
+- 1M tokens/month
 
 ---
 
-<br>
+## Support
 
-## Roadmap
+### Community
+- 📧 Email: support@enterprise-openclaw.com
+- 💬 GitHub Issues: [Report bugs](https://github.com/enterprise-openclaw/issues)
 
-<details>
-<summary><strong>📅 Development Timeline</strong></summary>
-
-<br>
-
-### ✅ Phase 1: MVP (Complete)
-- Multi-agent orchestrator with DAG
-- Self-improvement engine
-- Multi-tenancy and PII handling
-- Metrics and audit logging
-
-### ✅ Phase 2: Enterprise Hardening (Complete)
-- **DRIFT RAG with knowledge graphs**
-- **Document processing**
-- **Inference engine**
-- **91 comprehensive tests**
-
-### 🔄 Phase 3: AI-Native Features (In Progress)
-- Dynamic workflow generation
-- Multi-model routing
-- Experience-based learning
-- A/B testing framework
-
-### 📋 Phase 4: Platform Expansion
-- Agent marketplace
-- White-label deployment
-- Edge support
-- Advanced compliance
-
-</details>
-
-<br>
+### Enterprise
+- 🎯 Sales: sales@enterprise-openclaw.com
+- 🆘 Priority Support: support@enterprise-openclaw.com
+- 📞 Phone: Available for enterprise customers
 
 ---
-
-<br>
 
 ## Contributing
 
-We welcome contributions!
-
-1. Fork the repository
-2. Create feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push and open Pull Request
-
-<br>
+We welcome contributions to the core package (Apache 2.0). See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ---
 
-<br>
+## Architecture
 
-## License
+Enterprise OpenClaw uses a modern open-core architecture:
 
-Apache 2.0 - See [LICENSE](LICENSE) file
-
-<br>
+- **npm workspaces** - Multi-package monorepo
+- **TypeScript** - Type-safe development
+- **Vitest** - Fast, modern testing
+- **LanceDB** - Vector storage
+- **Zod** - Schema validation
+- **JWT + RS256** - License validation
 
 ---
 
-<br>
+## Performance
 
-<div align="center">
+- ⚡ <10ms cached validation
+- ⚡ <50ms offline cache
+- ⚡ <100ms first validation
+- 📊 Prometheus metrics
+- 🔍 Real-time monitoring
 
-**Built with inspiration from OpenClaw, AI Refinery SDK, and Epiloop**
+---
 
-**Powered by Claude Sonnet 4.5**
+## Security
 
-<br>
+- 🔐 RS256 signature verification
+- 🔒 SHA256 hashing
+- 🛡️ Input validation (Zod)
+- 📝 Audit logging
+- 🔑 Offline grace period (7 days)
 
-*The AI platform that evolves with you.*
+---
 
-</div>
+## Project Status
+
+**Latest Release:** v1.0.0
+**Release Date:** 2026-02-03
+**Status:** Production Ready ✅
+
+### Stats
+- **Code:** 9,500+ lines
+- **Tests:** 134 (100% passing)
+- **Documentation:** 3,000+ lines
+- **Guides:** 8 comprehensive docs
+
+---
+
+## Archive
+
+Historical development files and planning documents are preserved in the [`archive/`](./archive/) directory for reference.
+
+---
+
+**Built with ❤️ by the Enterprise OpenClaw Team**
+
+*Powered by Claude Sonnet 4.5*
