@@ -96,11 +96,30 @@ Enterprise OpenClaw transforms traditional AI assistants into a **self-upgrading
 
 ---
 
-## 🚀 Quick Start (5 Minutes!)
+## 🚀 ONE-CLICK INSTALLATION ⚡
 
-> **New to Enterprise OpenClaw?** Follow our [📖 Complete Quick Start Guide](QUICKSTART.md) for detailed setup instructions!
+### Method 1: One Command Install (Easiest! ⭐)
 
-### ⚡ Lightning Fast Setup
+```bash
+curl -fsSL https://raw.githubusercontent.com/wjlgatech/enterprise-openclaw/main/one-click-install.sh | bash
+```
+
+**That's it!** The script will:
+- ✅ Check prerequisites
+- ✅ Clone the repository
+- ✅ Install dependencies
+- ✅ Build the project
+- ✅ Run tests
+- ✅ Show you how to start
+
+### Method 2: If You Already Cloned
+
+```bash
+cd enterprise-openclaw
+./one-click-install.sh
+```
+
+### Method 3: Manual Setup
 
 ```bash
 # 1. Clone the repository
@@ -113,12 +132,11 @@ npm install
 # 3. Build the project (~30 seconds)
 npm run build
 
-# 4. Run tests to verify (optional)
-npm test tests/knowledge-system/rag-modes/drift-rag.test.ts
-
-# 5. Try DRIFT RAG!
+# 4. Try DRIFT RAG!
 npx tsx examples/drift-rag-example.ts
 ```
+
+> **📖 Need detailed instructions?** See [QUICKSTART.md](QUICKSTART.md)
 
 ### 🎯 Your First DRIFT RAG Query (3 Lines!)
 

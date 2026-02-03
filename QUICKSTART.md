@@ -1,17 +1,41 @@
 # 🚀 Enterprise OpenClaw - Quick Start Guide
 
-Get up and running with DRIFT RAG in 5 minutes!
+Get up and running with DRIFT RAG in 2 minutes with ONE command!
 
 ---
 
-## 📋 Prerequisites
+## ⚡ ONE-CLICK INSTALLATION (FASTEST!)
 
-Before you begin, ensure you have:
+### Just run this one command:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/wjlgatech/enterprise-openclaw/main/one-click-install.sh | bash
+```
+
+**That's literally it!** The installer will:
+1. ✅ Check your system (Node.js, npm, Git)
+2. ✅ Clone the repository
+3. ✅ Install all dependencies
+4. ✅ Build the project
+5. ✅ Run tests
+6. ✅ Show you what to do next
+
+### After installation:
+
+```bash
+cd enterprise-openclaw
+npx tsx examples/drift-rag-example.ts
+```
+
+---
+
+## 📋 Prerequisites (For One-Click Install)
+
+The one-click installer checks for these automatically:
 
 - ✅ **Node.js 18+** ([Download](https://nodejs.org/))
 - ✅ **npm 9+** (comes with Node.js)
 - ✅ **Git** ([Download](https://git-scm.com/))
-- ✅ **10 GB free disk space** (for dependencies and databases)
 
 ### Verify Prerequisites
 
@@ -21,9 +45,15 @@ npm --version     # Should show 9.x.x or higher
 git --version     # Should show 2.x.x or higher
 ```
 
+If you don't have these, the installer will tell you!
+
 ---
 
-## 📥 Step 1: Clone the Repository
+## 📥 Alternative: Manual Installation
+
+If you prefer to do it step-by-step:
+
+### Step 1: Clone the Repository
 
 ```bash
 # Clone from GitHub
