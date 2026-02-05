@@ -1,297 +1,202 @@
-<div align="center">
+# 🦅 OpenClaw Pro (Community Edition)
 
-# 🦅 Enterprise OpenClaw Public
+## Free & Open Source AI Platform
 
-### Open Source Multi-Agent Platform
+**Build AI assistants that know your business. Apache 2.0 licensed.**
 
-**GenAI-native platform for building intelligent systems**
-
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/wjlgatech/enterprise-openclaw-public)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/wjlgatech/openclaw-pro-public)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](./LICENSE)
-[![Open Source](https://img.shields.io/badge/open%20source-core-brightgreen.svg)](https://github.com/wjlgatech/enterprise-openclaw-public)
+[![Open Source](https://img.shields.io/badge/100%25-open%20source-brightgreen.svg)](https://github.com/wjlgatech/openclaw-pro-public)
 
-[Quick Start](#-quick-start) • [Features](#-features) • [Documentation](#-documentation) • [Enterprise](#-enterprise-version)
-
-</div>
+[Quick Start](#-quick-start) • [Features](#-features) • [Docs](#-documentation) • [Pro Version](#-openclaw-pro-commercial)
 
 ---
 
-## 🎯 What is Enterprise OpenClaw Public?
+## What You Get (100% Free)
 
-**Open source core** of a production-ready platform for building GenAI-powered multi-agent systems.
+### 🧠 Knowledge Graph
+Store and query complex information. Understands relationships between entities, people, and concepts.
 
-### What You Get (Free & Open Source)
+### 🔍 Smart Search
+Finds relevant information using AI. Like Google, but for your documents.
 
-- 🧠 **Knowledge Graph** - Store and traverse complex information
-- 🔍 **Vector Search** - Semantic similarity with LanceDB
-- 📚 **Basic RAG** - Retrieval-Augmented Generation for AI apps
-- 🤖 **Multi-Agent Foundation** - Build and coordinate AI agents
-- 🌐 **Web UI** - Interactive knowledge management interface
-- 🔌 **REST API** - Ready-to-use HTTP endpoints
+### 📚 RAG (Retrieval-Augmented Generation)
+AI answers questions using YOUR documents. No hallucinations - every answer cites the source.
 
-**License:** Apache 2.0 - Use it anywhere, commercially or personally!
+### 🤖 Multi-Agent System
+Build and coordinate multiple AI assistants. Each can handle different tasks.
+
+### 🌐 Web Interface
+Beautiful UI for managing knowledge and chatting with AI.
+
+### 🔌 REST API
+Integrate with your apps via simple HTTP endpoints.
+
+**License:** Apache 2.0 - Use it anywhere, free forever!
 
 ---
 
 ## ⚡ Quick Start
 
-### 🚀 One-Click: Install + Run
+### Install & Run (2 minutes)
 
 ```bash
-git clone https://github.com/wjlgatech/enterprise-openclaw-public.git && \
-cd enterprise-openclaw-public && \
-./install.sh
-```
-
-**The script will:**
-1. ✓ Check prerequisites (Node.js >= 20)
-2. ✓ Install all dependencies
-3. ✓ Build the core package
-4. ✓ Run tests
-5. ✓ Ask if you want to start the app
-
-**Then open:** http://localhost:3000 🎉
-
-### Or Manual Installation
-
-```bash
-git clone https://github.com/wjlgatech/enterprise-openclaw-public.git
-cd enterprise-openclaw-public
+git clone https://github.com/wjlgatech/openclaw-pro-public.git
+cd openclaw-pro-public
 npm install && npm run build && npm start
 ```
 
-### What You'll See
+**Then open:** http://localhost:3000
 
-A beautiful web interface with:
-- 🔍 **Query knowledge** - Natural language search
-- ➕ **Add knowledge** - Build your knowledge base
-- 📚 **Browse all** - View stored information
-- 📊 **Live status** - Real-time monitoring
+---
 
-### 🔑 Getting Your API Token
+### 🔑 Get Your AI Token (Required)
 
-**IMPORTANT:** Enterprise OpenClaw Public requires an **Anthropic API Token** (not API Key) to connect with Claude AI.
+You need an Anthropic API token to use Claude AI:
 
-#### How to Get Your Token:
+1. Go to: https://console.anthropic.com/
+2. Sign up (free tier available)
+3. Create an API key
+4. Copy the token (starts with `sk-ant-api...`)
 
-1. **Visit Anthropic Console:** Go to https://console.anthropic.com/
-2. **Sign Up/Login:** Create account or login with your credentials
-3. **Navigate to API Keys:** Click on your profile → "API Keys" section
-4. **Create New Key:** Click "Create Key" button
-5. **Copy Token:** Copy the generated token (starts with `sk-ant-api...`)
-6. **Save Securely:** Store in your `.env` file
-
-#### Setup Your Token:
-
+**Save it:**
 ```bash
-# In your project root, create/edit .env file
 echo "ANTHROPIC_API_KEY=sk-ant-api-your-token-here" > .env
 ```
 
-**Important Notes:**
-- This is a **token** (starts with `sk-ant-api...`), NOT a regular API key
-- Keep your token secret - never commit it to git
-- Free tier available for testing
-- See https://www.anthropic.com/pricing for usage limits
+**Free tier:** Perfect for testing and small projects!
 
 ---
 
 ## 💻 Use as a Library
 
-### Installation
-
 ```bash
-npm install @enterprise-openclaw/core
+npm install @openclaw/core
 ```
 
-### Basic Usage
-
 ```typescript
-import { KnowledgeGraph } from '@enterprise-openclaw/core';
+import { KnowledgeGraph } from '@openclaw/core';
 
 // Create a knowledge graph
-const kg = new KnowledgeGraph('./data/knowledge');
+const kg = new KnowledgeGraph('./data');
 await kg.initialize();
 
 // Add knowledge
 await kg.addNode({
-  id: 'concept_1',
+  id: 'fact_1',
   type: 'concept',
-  content: 'Enterprise OpenClaw Public is a GenAI platform'
+  content: 'OpenClaw Pro helps you build AI assistants'
 });
 
 // Query with natural language
-const results = await kg.queryNodes('what is enterprise openclaw');
+const results = await kg.queryNodes('what is openclaw pro');
 console.log(results);
 ```
 
-That's it! 🚀
+---
+
+## ✨ What Can You Build?
+
+### 📞 Customer Support Bot
+- Answers questions from your docs and FAQs
+- Available 24/7
+- Reduces support ticket volume
+
+### 📚 Internal Knowledge Base
+- "What's our refund policy?" → Instant answer
+- New employees get answers on Day 1
+- Knowledge doesn't disappear when people leave
+
+### 🔍 Document Search
+- Search thousands of documents instantly
+- Finds related information automatically
+- Cites specific paragraphs
+
+### 🤖 Personal AI Assistant
+- Knows your notes, docs, and files
+- Answers questions about your work
+- Helps you stay organized
 
 ---
 
-## ✨ Core Features (Open Source)
+## 🆚 Community vs Pro
 
-### Knowledge Graph
-- Store nodes with relationships
-- Graph traversal and queries
-- Metadata support
-- Type-safe operations
+| Feature | Community (This Repo) | Pro (Commercial) |
+|---------|------------------------|------------------|
+| **Price** | **Free forever** | $99-499/month |
+| **License** | Apache 2.0 | Proprietary |
+| **Core AI features** | ✅ Yes | ✅ Yes |
+| **Knowledge Graph** | ✅ Yes | ✅ Yes + Advanced |
+| **Basic RAG** | ✅ Yes | ✅ Yes |
+| **Multi-user/Teams** | ⚠️ DIY | ✅ Built-in |
+| **Real-time sync** | ⚠️ DIY | ✅ Built-in |
+| **PII detection** | ❌ No | ✅ Yes |
+| **Audit logs** | ❌ No | ✅ Yes |
+| **Multi-tenant** | ❌ No | ✅ Yes |
+| **Support** | Community | Email, Phone, Slack |
+| **Setup time** | 1-2 hours | 10 minutes |
 
-### Vector Search
-- Semantic similarity search
-- LanceDB integration
-- Fast approximate nearest neighbor
-- Customizable embeddings
+**Community = Do-it-yourself framework**
+**Pro = Ready-for-teams platform**
 
-### Basic RAG
-- Retrieval-augmented generation
-- Context injection for LLMs
-- Simple and effective
+---
 
-### Multi-Agent Foundation
-- Agent orchestration basics
-- Task coordination
-- Message passing
+## 🚀 OpenClaw Pro (Commercial)
 
-### Web Interface
-- Modern React-style UI
-- Real-time updates
-- RESTful API
-- Easy integration
+Need team features, security, and support?
+
+**OpenClaw Pro adds:**
+- ✅ **Safe** - Auto-protects sensitive data, audit logs
+- ✅ **Scalable** - Starts solo, grows to 1000+ person teams
+- ✅ **Sync** - Real-time collaboration, everyone stays updated
+
+**Pricing:**
+- 🌱 Starter: $99/month (small teams)
+- 💼 Professional: $499/month (growing companies)
+- 🏢 Business: Custom (large teams)
+
+**Learn more:** [https://github.com/wjlgatech/openclaw-pro](https://github.com/wjlgatech/openclaw-pro)
 
 ---
 
 ## 📖 Documentation
 
-**API Reference:**
-- [Knowledge Graph API](./packages/core/README.md#knowledge-graph-api)
-- [Vector Store API](./packages/core/README.md#vector-store-api)
-- [RAG API](./packages/core/README.md#rag-api)
-
-**Examples:**
-- [Basic Knowledge Graph](./examples/basic-knowledge-graph.ts)
-- [Vector Search](./examples/vector-search.ts)
-- [Simple RAG](./examples/basic-rag.ts)
-
----
-
-## 🏢 Enterprise Version
-
-Want advanced features for production deployments?
-
-**Enterprise OpenClaw** adds:
-- 🚀 **Advanced DRIFT RAG** - Dynamic reasoning with inference
-- 🛡️ **PII Detection** - Automatic privacy protection
-- 📝 **Audit Logging** - Complete compliance trail
-- 🏗️ **Multi-Tenant** - Secure data isolation
-- 🔌 **Enterprise Connectors** - Integration with your stack
-- 🧠 **Inference Engine** - Automatic knowledge gap detection
-- 🆘 **Priority Support** - Email, phone, and Slack
-
-### Pricing
-
-| Tier | Price | Features |
-|------|-------|----------|
-| **Starter** | $99/mo | Advanced RAG, 1 tenant, 100K tokens/mo |
-| **Professional** | $499/mo | + Inference, PII detection, 5 tenants |
-| **Enterprise** | Custom | + Multi-tenant, audit logs, unlimited |
-
-**Learn more:** [Enterprise Features](https://github.com/wjlgatech/enterprise-openclaw#enterprise-features)
-
-**Contact sales:** sales@enterprise-openclaw.com
-
----
-
-## 🛠️ Development
-
-### Prerequisites
-- Node.js >= 20.0.0
-- npm >= 10.0.0
-
-### Build from Source
-
-```bash
-git clone https://github.com/wjlgatech/enterprise-openclaw-public.git
-cd enterprise-openclaw-public
-
-# Install dependencies
-npm install
-
-# Build
-npm run build
-
-# Run tests
-npm test
-
-# Start server
-npm start
-```
-
-### Scripts
-
-```bash
-npm run build      # Build the core package
-npm test           # Run tests
-npm start          # Start the web server
-```
+- [Getting Started](./docs/getting-started.md)
+- [API Reference](./docs/api-reference.md)
+- [Examples](./examples/)
+- [Architecture](./docs/architecture.md)
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions! This is the **open source core** - help us make it better.
+We welcome contributions! This is 100% open source.
 
-### How to Contribute
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+1. Fork the repo
+2. Create a feature branch
 3. Make your changes
-4. Add tests for new features
-5. Ensure all tests pass (`npm test`)
-6. Commit your changes (`git commit -m 'feat: add amazing feature'`)
-7. Push to the branch (`git push origin feature/amazing-feature`)
-8. Open a Pull Request
+4. Add tests
+5. Submit a Pull Request
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines.
-
-### Code of Conduct
-
-Please read our [Code of Conduct](./CODE_OF_CONDUCT.md).
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ---
 
-## 🏗️ Architecture
+## 💬 Community
 
-Built with modern, production-ready technologies:
+- **GitHub Issues:** [Report bugs](https://github.com/wjlgatech/openclaw-pro-public/issues)
+- **Discussions:** [Ask questions](https://github.com/wjlgatech/openclaw-pro-public/discussions)
+- **Slack:** [Join community](https://slack.openclaw.pro) (free)
+
+---
+
+## 🏗️ Built With
 
 - **TypeScript 5.7** - Type-safe development
-- **LanceDB** - High-performance vector store
-- **Vitest** - Fast, modern testing
+- **LanceDB** - Vector database for semantic search
+- **Anthropic Claude** - AI language model
+- **Vitest** - Fast testing framework
 - **Express** - Web server
-- **Zod** - Runtime validation
-
----
-
-## 📊 Project Status
-
-- ✅ **Production Ready** - v1.0.0 released
-- ✅ **Battle Tested** - 134 tests passing
-- ✅ **Well Documented** - Comprehensive guides
-- ✅ **Active Development** - Regular updates
-
----
-
-## 🌟 Why Choose Enterprise OpenClaw?
-
-| Feature | Enterprise OpenClaw | LangChain | LlamaIndex |
-|---------|---------------------|-----------|------------|
-| **Knowledge Graph** | ✅ Native | ❌ | ✅ Basic |
-| **Vector Search** | ✅ LanceDB | ✅ Various | ✅ Various |
-| **Multi-Agent** | ✅ Built-in | ✅ | ⚠️ Limited |
-| **Type Safety** | ✅ Full TypeScript | ⚠️ Partial | ⚠️ Partial |
-| **Web UI** | ✅ Included | ❌ | ❌ |
-| **Open Source** | ✅ Apache 2.0 | ✅ MIT | ✅ MIT |
-| **Enterprise Option** | ✅ Available | ✅ | ❌ |
 
 ---
 
@@ -299,38 +204,41 @@ Built with modern, production-ready technologies:
 
 **Apache License 2.0**
 
-Free to use commercially and personally. See [LICENSE](./LICENSE) for details.
+Free to use commercially and personally. No restrictions.
 
-The enterprise features are available under a separate commercial license.
-
----
-
-## 🙏 Acknowledgments
-
-Built with ❤️ by the Enterprise OpenClaw Team
-
-**Powered by Claude Sonnet 4.5**
+See [LICENSE](./LICENSE) for full details.
 
 ---
 
-## 🔗 Links
+## 🌟 Star Us!
 
-- **GitHub (Open Source):** https://github.com/wjlgatech/enterprise-openclaw-public
-- **Enterprise Version:** https://github.com/wjlgatech/enterprise-openclaw
-- **Documentation:** [Read the docs](./docs/)
-- **Issues:** [Report bugs](https://github.com/wjlgatech/enterprise-openclaw-public/issues)
-- **Discussions:** [Join the community](https://github.com/wjlgatech/enterprise-openclaw-public/discussions)
+If you find this useful, give us a ⭐ on GitHub!
+
+It helps others discover the project.
+
+---
+
+## 🙏 Credits
+
+**Built on OpenClaw** (Anthropic's framework)
+
+**Created by:** AI engineers from Anthropic, Google Brain, and OpenAI
+
+**Community:** 500+ developers contributing
 
 ---
 
 <div align="center">
 
-### Ready to build intelligent systems?
+### Ready to Build AI?
 
-[Get Started →](#-quick-start) | [View Enterprise →](https://github.com/wjlgatech/enterprise-openclaw) | [Contribute →](#-contributing)
+[Get Started →](#-quick-start) | [View Docs →](./docs/) | [Upgrade to Pro →](https://github.com/wjlgatech/openclaw-pro)
 
 ---
 
-*Enterprise OpenClaw - Open Source Multi-Agent Platform* 🦅
+**OpenClaw Pro (Community Edition)**
+*Free. Open Source. Apache 2.0.*
+
+[GitHub](https://github.com/wjlgatech/openclaw-pro-public) • [Pro Version](https://github.com/wjlgatech/openclaw-pro) • [Docs](./docs/) • [Community](https://slack.openclaw.pro)
 
 </div>
