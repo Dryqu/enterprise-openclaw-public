@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🦅 Enterprise OpenClaw
+# 🦅 Enterprise OpenClaw Public
 
 ### Open Source Multi-Agent Platform
 
@@ -16,7 +16,7 @@
 
 ---
 
-## 🎯 What is Enterprise OpenClaw?
+## 🎯 What is Enterprise OpenClaw Public?
 
 **Open source core** of a production-ready platform for building GenAI-powered multi-agent systems.
 
@@ -68,6 +68,32 @@ A beautiful web interface with:
 - 📚 **Browse all** - View stored information
 - 📊 **Live status** - Real-time monitoring
 
+### 🔑 Getting Your API Token
+
+**IMPORTANT:** Enterprise OpenClaw Public requires an **Anthropic API Token** (not API Key) to connect with Claude AI.
+
+#### How to Get Your Token:
+
+1. **Visit Anthropic Console:** Go to https://console.anthropic.com/
+2. **Sign Up/Login:** Create account or login with your credentials
+3. **Navigate to API Keys:** Click on your profile → "API Keys" section
+4. **Create New Key:** Click "Create Key" button
+5. **Copy Token:** Copy the generated token (starts with `sk-ant-api...`)
+6. **Save Securely:** Store in your `.env` file
+
+#### Setup Your Token:
+
+```bash
+# In your project root, create/edit .env file
+echo "ANTHROPIC_API_KEY=sk-ant-api-your-token-here" > .env
+```
+
+**Important Notes:**
+- This is a **token** (starts with `sk-ant-api...`), NOT a regular API key
+- Keep your token secret - never commit it to git
+- Free tier available for testing
+- See https://www.anthropic.com/pricing for usage limits
+
 ---
 
 ## 💻 Use as a Library
@@ -91,7 +117,7 @@ await kg.initialize();
 await kg.addNode({
   id: 'concept_1',
   type: 'concept',
-  content: 'Enterprise OpenClaw is a GenAI platform'
+  content: 'Enterprise OpenClaw Public is a GenAI platform'
 });
 
 // Query with natural language
